@@ -1,0 +1,6 @@
+pagamento_id,pedido_id,metodo_pagamento,valor_pago,data_pagamento
+1,5001,cartao_credito,100.00,2023-06-01
+2,5002,PIX,89.90,02/06/2023
+3,5003,pix,0.00,2023-06-03
+4,5004,Cartão de Crédito,1200.00,2023-06-04
+5,5099,Boleto,300.00,05/06/2023
