@@ -9,7 +9,6 @@
     location='../data/silver/stg_pedidos.parquet'
 ) }}
 
-
 with fonte as (
 
     select distinct * from {{ source('bronze', 'pedidos') }}
@@ -26,8 +25,17 @@ select
         try_cast(try_strptime(data_pedido, '%d/%m/%Y') as date)
     ) as data_pedido,
 
-    -- Garante conversão numérica correta e substitui nulos por zero
-    coalesce(try_cast(valor_total as numeric(10,2)), 0.00) as valor_total,
+    -- Limpa R$, formato monetário brasileiro e converte para numeric(10,2)
+    coalesce(
+        try_cast(
+            replace(
+                replace(
+                    replace(valor_total, 'R$', ''),
+                '.', ''),
+            ',', '.') as numeric(10,2)
+        ),
+        0.00
+    ) as valor_total,
 
     -- Padroniza acentuação e caixa alta do status
     case upper(trim(status))
