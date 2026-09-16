@@ -14,7 +14,9 @@
 with pedidos as (
 
     select *
-    from {{ ref('stg_pedidos') }}
+    from {{ ref('stg_pedidos') }} p
+    inner join {{ ref('stg_clientes') }} c
+    on p.cliente_id = c.cliente_id
     where status = 'CONCLUÍDO'
 
 ),

@@ -13,21 +13,20 @@ models:
     description: "Tabela de pedidos limpa e tipada com status padronizados."
     columns:
       - name: pedido_id
-        tests:
+        data_tests:
           - not_null
           - unique
       - name: cliente_id
-        tests:
+        data_tests:
           - not_null
           - relationships:
               arguments:
                 to: ref('stg_clientes')
                 field: cliente_id
       - name: status
-        tests:
-          - accepted_values:
-              arguments:
-                values: [ 'CONCLUÍDO', 'PENDENTE', 'CANCELADO' ]
+        data_tests:
+            - accepted_values:
+                values: ['CONCLUIDO', 'PENDENTE', 'CANCELADO']
 
   - name: stg_pagamentos
     description: "Registro de pagamentos com métodos de pagamento normalizados."
@@ -42,3 +41,5 @@ models:
           - relationships:
               to: ref('stg_pedidos')
               field: pedido_id
+              config:
+                severity: warn

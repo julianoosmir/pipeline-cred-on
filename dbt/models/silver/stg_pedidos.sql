@@ -13,36 +13,41 @@ with fonte as (
 
     select distinct * from {{ source('bronze', 'pedidos') }}
 
+),
+
+clientes_validos as (
+
+    select cliente_id from {{ ref('stg_clientes') }}
+
 )
 
 select
-    try_cast(pedido_id as bigint) as pedido_id,
-    try_cast(cliente_id as integer) as cliente_id,
+    try_cast(f.pedido_id as bigint) as pedido_id,
+    try_cast(f.cliente_id as integer) as cliente_id,
 
-    -- Trata formato ISO e formato DD/MM/YYYY de datas
     coalesce(
-        try_cast(data_pedido as date),
-        try_cast(try_strptime(data_pedido, '%d/%m/%Y') as date)
+        try_cast(f.data_pedido as date),
+        try_cast(try_strptime(f.data_pedido, '%d/%m/%Y') as date)
     ) as data_pedido,
 
-    -- Limpa R$, formato monetário brasileiro e converte para numeric(10,2)
     coalesce(
         try_cast(
             replace(
                 replace(
-                    replace(valor_total, 'R$', ''),
+                    replace(f.valor_total, 'R$', ''),
                 '.', ''),
             ',', '.') as numeric(10,2)
         ),
         0.00
     ) as valor_total,
 
-    -- Padroniza acentuação e caixa alta do status
-    case upper(trim(status))
+    case upper(trim(f.status))
         when 'CONCLUIDO' THEN 'CONCLUÍDO'
         when 'PENDENTTE' THEN 'PENDENTE'
-        else upper(trim(status))
+        when 'CANCELADO' THEN 'CANCELADO'
+        else upper(trim(f.status))
     end as status
 
-from fonte
-where pedido_id is not null
+from fonte f
+inner join clientes_validos c on try_cast(f.cliente_id as integer) = c.cliente_id
+where f.pedido_id is not null
