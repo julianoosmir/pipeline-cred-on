@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: "Arquivos Parquet da camada Bronze ingeridos dos CSVs."
+    meta:
+      external_location: "../data/bronze/{name}.parquet"  # Aponta para /nosso pipeline/data/bronze/
+    tables:
+      - name: clientes
+      - name: pedidos
+      - name: pagamentos

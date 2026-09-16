@@ -1,0 +1,36 @@
+cliente_id,nome,email,estado,data_cadastro
+101,joao da silva,joao.silva@email.com,SP,2023-01-15
+101,Joao Silva,joao.silva@email.com,São Paulo,2023-01-15
+102,MARIA OLIVEIRA,maria.o@email.com,RJ,2023-02-20
+103,Carlos Eduardo,,MG,2023-03-05
+104,Ana Paula Souza,ana.souza@gmail.com,PR,2023-04-12
+105,Fernanda Lima,fer.lima@domain.com,RS,2023-05-01
+106,Pedro Santos,pedro.santos@email.com,SP,2023-05-10
+107,luciana almeida,luciana.a@email.com,RJ,2023-05-18
+108,ROBERTA MENDES,roberta.m@email.com,MG,2023-06-01
+109,Marcos Pereira,,BA,2023-06-05
+110,Juliana Costa,juliana.costa@gmail.com,SC,2023-06-12
+111,RICARDO SOUZA,ricardo.s@email.com,SP,2023-06-20
+112,Patricia Gomes,patricia.g@email.com,PR,2023-07-01
+113,andre luiz,andre.l@email.com,RJ,2023-07-08
+114,Camila Ferreira,camila.f@email.com,RS,2023-07-15
+115,BRUNO OLIVEIRA,bruno.o@email.com,MG,2023-07-22
+116,Aline Martins,aline.martins@email.com,SP,2023-08-01
+117,Diego Rodrigues,diego.r@email.com,CE,2023-08-10
+118,Sabrina Alves,,PE,2023-08-18
+119,GUSTAVO LIMA,gustavo.l@email.com,BA,2023-09-01
+120,Renata Dias,renata.d@email.com,SP,2023-09-10
+121,Felipe Martins,felipe.m@email.com,RJ,2023-09-15
+122,Amanda Souza,amanda.s@email.com,MG,2023-09-20
+123,THIAGO BARROS,thiago.b@email.com,PR,2023-10-01
+124,Larissa Rocha,larissa.r@email.com,RS,2023-10-05
+125,Rafael Mendes,,SP,2023-10-12
+126,Bianca Alves,bianca.a@email.com,RJ,2023-10-20
+127,Eduardo Nunes,eduardo.n@email.com,MG,2023-11-01
+128,CARLA MOURA,carla.m@email.com,BA,2023-11-10
+129,Vinicius Lima,vinicius.l@email.com,SC,2023-11-18
+130,Mariana Silva,mariana.s@email.com,SP,2023-12-01
+131,Henrique Costa,henrique.c@email.com,RJ,2023-12-05
+132,Isabela Ramos,isabela.r@email.com,MG,2023-12-10
+133,Paulo Araujo,paulo.a@email.com,PR,2023-12-15
+134,NATALIA FREITAS,natalia.f@email.com,RS,2023-12-20

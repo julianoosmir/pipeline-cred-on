@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 
 # ==========================================
-# 0. CARREGAMENTO DOS DADOS (SIMULAÇÃO DE CSVs)
+# 0. CARREGAMENTO DOS DADOS (LEITURA APENAS DOS CSVs)
 # ==========================================
-df_clientes = pd.read_csv("clientes.csv")
-df_pedidos = pd.read_csv("pedidos.csv")
-df_pagamentos = pd.read_csv("pagamentos.csv")
+df_clientes = pd.read_csv("data/raw/clientes.csv")
+df_pedidos = pd.read_csv("data/raw/pedidos.csv")
+df_pagamentos = pd.read_csv("data/raw/pagamentos.csv")
 
 
 # ==========================================
@@ -67,8 +67,8 @@ status_map = {
 }
 df_pedidos_clean['status'] = df_pedidos_clean['status'].map(status_map).fillna('INDEFINIDO')
 
-# 3. Tratar valor_total nulo
-df_pedidos_clean['valor_total'] = df_pedidos_clean['valor_total'].fillna(0.0)
+# 3. Converter para numérico (float) e tratar valor_total nulo
+df_pedidos_clean['valor_total'] = pd.to_numeric(df_pedidos_clean['valor_total'], errors='coerce').fillna(0.0)
 
 
 # --- TRATAMENTO: PAGAMENTOS ---
@@ -84,7 +84,10 @@ metodo_map = {
 }
 df_pagamentos_clean['metodo_pagamento'] = df_pagamentos_clean['metodo_pagamento'].map(metodo_map)
 
-# 2. Padronizar formato de datas (DD/MM/YYYY vs YYYY-MM-DD -> YYYY-MM-DD)
+# 2. Converter valor_pago para numérico (float)
+df_pagamentos_clean['valor_pago'] = pd.to_numeric(df_pagamentos_clean['valor_pago'], errors='coerce').fillna(0.0)
+
+# 3. Padronizar formato de datas (DD/MM/YYYY vs YYYY-MM-DD -> YYYY-MM-DD)
 def parse_data(data_str):
     if pd.isna(data_str):
         return None

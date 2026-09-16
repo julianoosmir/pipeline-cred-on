@@ -1,0 +1,15 @@
+name: central_servicos
+profile: central_servicos
+version: 1.0.0
+
+model-paths:
+  - models
+
+models:
+  central_servicos:
+    silver:
+      +materialized: external
+      +format: parquet
+    gold:
+      +materialized: external
+      +format: parquet

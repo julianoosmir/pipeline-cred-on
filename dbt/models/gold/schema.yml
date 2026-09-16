@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: faturamento_cliente_mensal
+    description: "Visão consolidada de vendas e faturamento agrupados por cliente e mês."
+    columns:
+      - name: mes_ano
+        description: "Mês e ano da transação no formato YYYY-MM."
+        tests:
+          - not_null
+      - name: cliente_id
+        description: "Identificador único do cliente."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_clientes')
+                field: cliente_id
+      - name: faturamento_total
+        description: "Soma do valor de vendas concluídas no período."
+        tests:
+          - not_null
+
+  - name: resumo_metodos_pagamento
+    description: "Consolidado financeiro por método de pagamento."
+    columns:
+      - name: metodo_pagamento
+        tests:
+          - not_null

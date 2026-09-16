@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: stg_clientes
+    description: "Cadastro de clientes higienizado, com nomes padronizados, UFs corrigidas e sem duplicatas."
+    columns:
+      - name: cliente_id
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_pedidos
+    description: "Tabela de pedidos limpa e tipada com status padronizados."
+    columns:
+      - name: pedido_id
+        tests:
+          - not_null
+          - unique
+      - name: cliente_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_clientes')
+                field: cliente_id
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: [ 'CONCLUÍDO', 'PENDENTE', 'CANCELADO' ]
+
+  - name: stg_pagamentos
+    description: "Registro de pagamentos com métodos de pagamento normalizados."
+    columns:
+      - name: pagamento_id
+        tests:
+          - not_null
+          - unique
+      - name: pedido_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_pedidos')
+              field: pedido_id
