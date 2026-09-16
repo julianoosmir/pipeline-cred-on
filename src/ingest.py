@@ -1,14 +1,14 @@
 """Ingestão: leva os dados das FONTES (data/raw) para o BRONZE (data/bronze).
 
 Regras desta camada:
-    - Ler os arquivos de origem (CSV) com Pandas.
+    - Ler os arquivos de origem (CSV,JSON) com Pandas.
     - Fazer APENAS normalizações técnicas mínimas (nomes de coluna,
       metadado de ingestão). Regra de negócio NÃO entra aqui —
       limpeza, padronização e integração são papel do dbt/transformação (Silver).
     - Persistir em Parquet, preservando o dado o mais próximo
       possível de como ele chegou.
 
-raw    = os arquivos que a origem nos entregou.
+raw = os arquivos que a origem nos entregou.
 bronze = o que o NOSSO pipeline capturou e persistiu.
 """
 
@@ -72,13 +72,13 @@ def ingest_pedidos() -> None:
 
 
 def ingest_pagamentos() -> None:
-    """Ingestão do CSV de transações e pagamentos.
+    """Ingestão do JSON de transações e pagamentos.
 
     Contém divergência financeira de valores com o pedido, múltiplos formatos
     de data (DD/MM/YYYY vs YYYY-MM-DD) e pedido_id órfão.
     """
-    origem = DATA_RAW_PATH / "pagamentos.csv"
+    origem = DATA_RAW_PATH / "pagamentos.json"
     logger.info("Lendo %s", origem.name)
-    df = pd.read_csv(origem, dtype=str)
+    df = pd.read_json(origem, dtype=str)
     logger.info("%d registros encontrados", len(df))
     _gravar_bronze(df, "pagamentos")
