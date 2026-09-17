@@ -31,7 +31,7 @@ dbt-duckdb
 
 
 ```bash
-python src/pipeline.py
+python pipeline.py
 ```
 
 Executar as transformações dos modelos SQL
