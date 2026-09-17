@@ -17,7 +17,7 @@ for folder in [BRONZE_DIR, DELTA_DIR, GOLD_DIR]:
     folder.mkdir(parents=True, exist_ok=True)
 
 # =====================================================================
-# 2. CARGA DAS FONTES (LENDO pagamentos.csv)
+# 2. CARGA DAS FONTES (SUPORTE A CSV E JSON)
 # =====================================================================
 def carregar_fonte(nome_arquivo):
     caminho_raw = BASE_DIR / "raw" / nome_arquivo
@@ -34,12 +34,15 @@ def carregar_fonte(nome_arquivo):
             f" - {caminho_data}"
         )
 
+    # Verifica a extensão para usar a função de leitura correta
+    if nome_arquivo.endswith('.json'):
+        return pd.read_json(caminho_final)
     return pd.read_csv(caminho_final)
 
-# Leitura dos CSVs
+# Leitura dos arquivos
 df_clientes = carregar_fonte("clientes.csv")
 df_pedidos = carregar_fonte("pedidos.csv")
-df_pagamentos = carregar_fonte("pagamentos.csv")
+df_pagamentos = carregar_fonte("pagamentos.json")
 
 # =====================================================================
 # 3. SIMULAÇÃO DE RUÍDOS/DEFEITOS NOS DADOS BRUTOS
