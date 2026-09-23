@@ -10,6 +10,3 @@ Foi utilizada a arquitetura Medallion baseada nas camadas Bronze, Silver e Gold.
 
 ## Validação de Dados
 Inclusão de testes automatizados para verificar regras de unicidade, nulidade, chaves estrangeiras ed domínios aceitos.
-
-dbt run --select silver
-dbt run --select gold
