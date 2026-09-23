@@ -2,7 +2,7 @@
 -- SILVER | stg_clientes
 -- =====================================================================
 -- Padroniza o cadastro de clientes tratando inconsistências de formato,
--- e-mails nulos e duplicidade de IDs.
+-- e-mails nulos, datas de cadastro inválidas e duplicidade de IDs.
 -- =====================================================================
 
 {{ config(
@@ -15,6 +15,37 @@
 with fonte as (
 
     select * from {{ source('bronze', 'clientes') }}
+
+),
+
+tratamento_datas as (
+
+    select
+        *,
+        -- 1. Tenta converter múltiplos formatos de data e timestamp
+        coalesce(
+            try_cast(data_cadastro as date),                                     -- ISO 'YYYY-MM-DD'
+            try_cast(try_strptime(data_cadastro, '%d/%m/%Y') as date),          -- pt-BR 'DD/MM/YYYY'
+            try_cast(try_strptime(data_cadastro, '%Y-%m-%d %H:%M:%S') as date), -- ISO Timestamp 'YYYY-MM-DD HH:MM:SS'
+            try_cast(try_strptime(data_cadastro, '%d/%m/%Y %H:%M:%S') as date)  -- pt-BR Timestamp 'DD/MM/YYYY HH:MM:SS'
+        ) as data_cadastro_convertida
+
+    from fonte
+
+),
+
+datas_sanitizadas as (
+
+    select
+        *,
+        -- 2. Descarta datas fora da faixa plausível do negócio
+        case
+            when data_cadastro_convertida < '2000-01-01'::date then null
+            when data_cadastro_convertida > current_date then null
+            else data_cadastro_convertida
+        end as data_cadastro_final
+
+    from tratamento_datas
 
 ),
 
@@ -45,15 +76,15 @@ tratada as (
             else upper(trim(estado))
         end as estado,
 
-        try_cast(data_cadastro as date) as data_cadastro,
+        data_cadastro_final as data_cadastro,
 
-        -- Identifica duplicatas de cliente_id mantendo a primeira ocorrência
+        -- Identifica duplicatas de cliente_id mantendo a ocorrência com a menor data de cadastro válida
         row_number() over (
             partition by cast(cliente_id as integer)
-            order by data_cadastro asc
+            order by data_cadastro_final asc nulls last
         ) as rn
 
-    from fonte
+    from datas_sanitizadas
 
 )
 
@@ -65,3 +96,4 @@ select
     data_cadastro
 from tratada
 where rn = 1
+  and cliente_id is not null

@@ -225,7 +225,7 @@ def gerar_dashboard():
                 color: #1e3c72;
             }}
             .grid {{
-                display: grid;
+                display: inline;
                 grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
                 gap: 20px;
                 max-width: 1400px;
@@ -236,6 +236,7 @@ def gerar_dashboard():
                 padding: 15px;
                 border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+                margin: 10px;
             }}
         </style>
     </head>
