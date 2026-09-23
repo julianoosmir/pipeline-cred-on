@@ -23,6 +23,7 @@ numpy
 deltalake
 pyarrow
 dbt-duckdb
+plotly
 ```
 
 ## 🚀 Executando o Pipeline

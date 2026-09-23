@@ -3,3 +3,4 @@ numpy
 deltalake
 pyarrow
 dbt-duckdb
+plotly
